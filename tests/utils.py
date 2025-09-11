@@ -9,7 +9,6 @@ import io
 import shutil
 import subprocess
 import sys
-import six
 
 
 def mkfreshdir(path):
@@ -49,8 +48,6 @@ def run_cmd(cmd):
     use_locale = check_locale(["en_US.utf8", 'C.utf8'])
     os.environ['LANG']   = use_locale
     os.environ['LC_ALL'] = use_locale
-    if six.PY3:
-        cmd = cmd.encode('UTF-8')
     proc = subprocess.Popen(
         cmd,
         shell=True,
