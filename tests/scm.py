@@ -1,7 +1,6 @@
 import os
 import shutil
 import unittest
-import six
 
 from TarSCM.scm.base import Scm
 
@@ -50,7 +49,7 @@ class SCMBaseTestCases(unittest.TestCase):
         else:
             msg = ctx.exception
 
-        six.assertRegex(self, str(msg), 'No such file or directory')
+        self.assertRegex(str(msg), 'No such file or directory')
 
         scm_base.prep_tree_for_archive("test1", basedir, "test2")
 

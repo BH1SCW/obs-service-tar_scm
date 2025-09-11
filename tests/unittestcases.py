@@ -6,7 +6,6 @@ import re
 import inspect
 import copy
 import unittest
-import six
 
 try:
     from unittest.mock import patch
@@ -81,8 +80,7 @@ class UnitTestCases(unittest.TestCase):
 
     def test_safe_run_exception(self):
         helpers = Helpers()
-        six.assertRaisesRegex(
-            self,
+        self.assertRaisesRegex(
             SystemExit,
             re.compile(r"Command /bin/false failed\(1\): ''"),
             helpers.safe_run,
@@ -299,8 +297,7 @@ class UnitTestCases(unittest.TestCase):
                  "commit: fea6eb5f43841d57424843c591b6c8791367a9e5\n"
         file_write_legacy(info, string)
         os.chdir(wdir)
-        six.assertRaisesRegex(
-            self,
+        self.assertRaisesRegex(
             SystemExit,
             re.compile("name in obsinfo contains '/'."),
             scm_object.fetch_upstream
@@ -313,8 +310,7 @@ class UnitTestCases(unittest.TestCase):
                  "commit: fea6eb5f43841d57424843c591b6c8791367a9e5\n"
         file_write_legacy(info, string)
         os.chdir(wdir)
-        six.assertRaisesRegex(
-            self,
+        self.assertRaisesRegex(
             SystemExit,
             re.compile("version in obsinfo contains '/' or '..'."),
             scm_object.fetch_upstream
@@ -327,8 +323,7 @@ class UnitTestCases(unittest.TestCase):
                  "commit: fea6eb5f43841d57424843c591b6c8791367a9e5\n"
         file_write_legacy(info, string)
         os.chdir(wdir)
-        six.assertRaisesRegex(
-            self,
+        self.assertRaisesRegex(
             SystemExit,
             re.compile("version in obsinfo contains '/' or '..'."),
             scm_object.fetch_upstream

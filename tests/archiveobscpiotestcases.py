@@ -7,7 +7,6 @@ import inspect
 import shutil
 import unittest
 import io
-import six
 import yaml
 
 import TarSCM
@@ -118,8 +117,7 @@ class ArchiveOBSCpioTestCases(unittest.TestCase):
         outdir  = os.path.join(self.tmp_dir, cl_name, tc_name, 'out')
         arch    = ObsCpio()
         os.makedirs(outdir)
-        six.assertRaisesRegex(
-            self,
+        self.assertRaisesRegex(
             SystemExit,
             re.compile('No such file or directory'),
             arch.extract_from_archive,
@@ -140,8 +138,7 @@ class ArchiveOBSCpioTestCases(unittest.TestCase):
         outdir  = os.path.join(self.tmp_dir, cl_name, tc_name, 'out')
         arch    = TarSCM.archive.ObsCpio()
         os.makedirs(outdir)
-        six.assertRaisesRegex(
-            self,
+        self.assertRaisesRegex(
             IOError,
             re.compile('Is a directory:'),
             arch.extract_from_archive,
@@ -200,8 +197,7 @@ class ArchiveOBSCpioTestCases(unittest.TestCase):
 
         os.symlink("/", os.path.join(repodir, 'dir1'))
         arch    = TarSCM.archive.ObsCpio()
-        six.assertRaisesRegex(
-            self,
+        self.assertRaisesRegex(
             SystemExit,
             re.compile('tries to escape the repository'),
             arch.extract_from_archive,
