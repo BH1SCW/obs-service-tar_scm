@@ -141,7 +141,6 @@ BuildRequires:  %{locale_package}
 BuildRequires:  %{pkg_name} = %{version}
 BuildRequires:  %{use_python}-keyring
 BuildRequires:  %{use_python}-keyrings.alt
-BuildRequires:  %{use_python}-six
 BuildRequires:  bzr
 BuildRequires:  git-core
 BuildRequires:  gpg

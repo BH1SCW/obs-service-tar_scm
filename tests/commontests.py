@@ -3,7 +3,6 @@
 from pprint               import pformat
 import os
 import tarfile
-import six
 
 from tests.testassertions import TestAssertions
 from tests.testenv        import TestEnvironment
@@ -50,7 +49,7 @@ class CommonTests(TestEnvironment, TestAssertions):
         tar_handle = self.assertTarOnly(basename)
         member     = tar_handle.getmember(basename + '/c')
         self.assertTrue(member.issym())
-        six.assertRegex(self, member.linkname, '[/.]*/nir/va/na$')
+        self.assertRegex(member.linkname, '[/.]*/nir/va/na$')
 
     def test_tar_exclude(self):
         self.tar_scm_std('--exclude', 'a', '--exclude', 'c')
@@ -117,26 +116,26 @@ class CommonTests(TestEnvironment, TestAssertions):
 
     def test_absolute_subdir(self):
         (_stdout, stderr, _ret) = self.tar_scm_std_fail('--subdir', '/')
-        six.assertRegex(
-            self, stderr, "Absolute path '/' is not allowed for --subdir")
+        self.assertRegex(
+            stderr, "Absolute path '/' is not allowed for --subdir")
 
     def test_subdir_parent(self):
         for path in ('..', '../', '../foo', 'foo/../../bar'):
             (_stdout, stderr, _ret) = self.tar_scm_std_fail('--subdir', path)
-            six.assertRegex(
-                self, stderr, "--subdir path '%s' must stay within repo" % path)
+            self.assertRegex(
+                stderr, "--subdir path '%s' must stay within repo" % path)
 
     def test_extract_parent(self):
         for path in ('..', '../', '../foo', 'foo/../../bar'):
             (_stdout, stderr, _ret) = self.tar_scm_std_fail('--extract', path)
-            six.assertRegex(
-                self, stderr, '--extract is not allowed to contain ".."')
+            self.assertRegex(
+                stderr, '--extract is not allowed to contain ".."')
 
     def test_filename(self):
         for path in ('/tmp/somepkg.tar', '../somepkg.tar'):
             (_stdout, stderr, _ret) = self.tar_scm_std_fail('--filename', path)
-            six.assertRegex(
-                self, stderr, '--filename must not specify a path')
+            self.assertRegex(
+                stderr, '--filename must not specify a path')
 
     def test_subdir(self):
         self.tar_scm_std('--subdir', self.fixtures.subdir)
@@ -144,7 +143,7 @@ class CommonTests(TestEnvironment, TestAssertions):
 
     def test_history_depth_obsolete(self):
         (stdout, _stderr, _ret) = self.tar_scm_std('--history-depth', '1')
-        six.assertRegex(self, stdout, 'obsolete')
+        self.assertRegex(stdout, 'obsolete')
 
     def test_myfilename(self):
         name = 'myfilename'

@@ -6,7 +6,6 @@ import textwrap
 import re
 import shutil
 import glob
-import six
 
 from commontests import CommonTests
 
@@ -107,7 +106,7 @@ class GitSvnTests(CommonTests):
             self.assertNotEqual(orig_changes, new_changes)
             print(new_changes)
             expected_changes_regexp += "(.*)"
-            six.assertRegex(self, new_changes, expected_changes_regexp)
+            self.assertRegex(new_changes, expected_changes_regexp)
             reg = re.match(expected_changes_regexp, new_changes, re.DOTALL)
             self.assertEqual(reg.group(1), orig_changes)
 

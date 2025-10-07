@@ -7,7 +7,6 @@ import re
 import sys
 import tarfile
 import unittest
-import six
 
 line_start = '(^|\n)'
 
@@ -162,10 +161,7 @@ class TestAssertions(unittest.TestCase):
                 "----\n%s\n----\n" \
                 % (should_not_find, logpath, "".join(loglines))
             if should_not_find:
-                if six.PY2:
-                    self.assertNotRegexpMatches(line, should_not_find, msg)
-                else:
-                    self.assertNotRegex(line, should_not_find, msg)
+                self.assertNotRegex(line, should_not_find, msg)
             if regexp.search(line):
                 found = True
         msg = \
