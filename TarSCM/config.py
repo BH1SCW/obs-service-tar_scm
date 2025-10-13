@@ -75,7 +75,7 @@ class Config():
                 tmp_fp.write('[' + self.default_section + ']\n')
                 tmp_fp.write(open(fname, 'r').read())
                 tmp_fp.seek(0, os.SEEK_SET)
-                config.readfp(tmp_fp)
+                config.read_file(tmp_fp)
 
         else:
             config.read(fname)
