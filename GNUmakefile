@@ -5,7 +5,12 @@
 SHELL    = /bin/bash -o pipefail
 
 DESTDIR ?=
+# On macOS, use /usr/local instead of /usr due to System Integrity Protection
+ifeq ($(shell uname -s),Darwin)
+PREFIX   = /usr/local
+else
 PREFIX   = /usr
+endif
 SYSCFG   = /etc
 
 CLEAN_PYFILES = \
@@ -192,7 +197,7 @@ ifeq (1, ${WITH_GBP})
 	[ ! -L $(DESTDIR)$(mylibdir)/obs_gbp ] || rm $(DESTDIR)$(mylibdir)/obs_gbp
 	ln -s tar_scm $(DESTDIR)$(mylibdir)/obs_gbp
 endif
-	find ./TarSCM/ -name '*.py*' -exec install -D -m 644 {} $(DESTDIR)$(mylibdir)/{} \;
+	find ./TarSCM/ -name '*.py*' -exec sh -c 'mkdir -p $(DESTDIR)$(mylibdir)/$$(dirname "{}") && install -m 644 "{}" $(DESTDIR)$(mylibdir)/{}' \;
 
 .PHONY: dirs
 dirs:
@@ -218,11 +223,11 @@ show-python:
 
 .PHONY: clean
 clean:
-	find -name '*.pyc' -exec rm -f {} \;
+	find . -name '*.pyc' -exec rm -f {} \;
 	rm -rf ./tests/tmp/
 	rm -f ./test.log
 	rm -f ./test3.log
 	rm -f ./cover.log
 
 compile:
-	find -name '*.py' -exec $(PYTHON) -m py_compile {} \;
+	find . -name '*.py' -exec $(PYTHON) -m py_compile {} \;
